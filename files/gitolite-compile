@@ -1,0 +1,4 @@
+#!/bin/sh
+gitolite compile
+gitolite setup --hooks-only
+gitolite trigger POST_COMPILE
