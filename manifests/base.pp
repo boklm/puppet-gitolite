@@ -1,5 +1,5 @@
 class gitolite::base {
-    packages { 'gitolite':
+    package { 'gitolite':
 	ensure => installed,
     }
 
