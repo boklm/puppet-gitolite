@@ -8,5 +8,6 @@ define gitolite::repo($gitolite_user, $homedir, $reponame, $access_rules, $optio
 	group => $gitolite_user,
 	notify => Exec["gitolite-compile-${gitolite_user}"],
 	content => template('gitolite/gitolite_repo.conf'),
+	require => Gitolite::Gitolite_user[$gitolite_user],
     }
 }

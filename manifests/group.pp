@@ -5,5 +5,6 @@ define gitolite::group($gitolite_user, $homedir, $groupname, $values) {
 	group => $gitolite_user,
 	notify => Exec["gitolite-compile-${gitolite_user}"],
 	content => inline_template("@<%= groupname %> = <%= values.join(' ') %>\n"),
+	require => Gitolite::Gitolite_user[$gitolite_user],
     }
 }
