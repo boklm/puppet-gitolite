@@ -1,10 +1,24 @@
-define gitolite::gitolite_user($homedir, $groups = []) {
+define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $projects_list = '') {
     include gitolite::base
+
+    if ($projects_list == '') {
+	$proj_list = $projects_list
+    } else {
+	$proj_list = "${homedir}/projects.list"
+    }
 
     user { $name:
 	comment => "gitolite user",
 	managehome => true,
 	home => $homedir,
+    }
+
+    file { $repos_root:
+	ensure => directory,
+	owner => $name,
+	group => $name,
+	mode => 0755,
+	require => User[$name],
     }
 
     file { $homedir:
@@ -56,6 +70,14 @@ define gitolite::gitolite_user($homedir, $groups = []) {
 	group => $name,
 	source => "puppet:///modules/gitolite/gitolite.conf",
 	require => File["$homedir/.gitolite/conf"],
+    }
+
+    file { "$homedir/.gitolite.rc":
+	ensure => present,
+	owner => $name,
+	group => $name,
+	content => template('gitolite/gitolite.rc'),
+	require => File[$homedir],
     }
 
     $glcompile = $gitolite::base::glcompile
