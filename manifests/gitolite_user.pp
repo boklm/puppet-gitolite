@@ -70,6 +70,16 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	notify => Exec["gitolite-compile-$name"],
     }
 
+    file { "$homedir/.gitolite/conf/groups":
+	ensure => directory,
+	owner => $name,
+	group => $name,
+	purge => true,
+	recurse => true,
+	require => File["$homedir/.gitolite/conf"],
+	notify => Exec["gitolite-compile-$name"],
+    }
+
     file { "$homedir/.gitolite/conf/gitolite.conf":
 	ensure => present,
 	owner => $name,
