@@ -50,6 +50,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	purge => true,
 	recurse => true,
 	require => File["$homedir/.gitolite"],
+	notify => Exec["gitolite-compile-$name"],
     }
 
     file { "$homedir/.gitolite/conf":
@@ -66,6 +67,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	purge => true,
 	recurse => true,
 	require => File["$homedir/.gitolite/conf"],
+	notify => Exec["gitolite-compile-$name"],
     }
 
     file { "$homedir/.gitolite/conf/gitolite.conf":
