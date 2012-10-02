@@ -1,4 +1,5 @@
 #!/bin/sh
-gitolite compile
-gitolite setup --hooks-only
-gitolite trigger POST_COMPILE
+export GL_RC=$HOME/.gitolite.rc
+export GL_BINDIR=/usr/share/gitolite
+cd $HOME/.gitolite
+$GL_BINDIR/gl-compile-conf
