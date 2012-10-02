@@ -82,8 +82,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 
     $glcompile = $gitolite::base::glcompile
     exec { "gitolite-compile-$name":
-	command => $glcompile,
-	user => $name,
+	command => "su - $name -c $glcompile",
 	refreshonly => true,
 	require => [File[$glcompile], User[$name]],
     }
