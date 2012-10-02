@@ -47,6 +47,8 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	ensure => directory,
 	owner => $name,
 	group => $name,
+	purge => true,
+	recurse => true,
 	require => File["$homedir/.gitolite"],
     }
 
@@ -61,6 +63,8 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	ensure => directory,
 	owner => $name,
 	group => $name,
+	purge => true,
+	recurse => true,
 	require => File["$homedir/.gitolite/conf"],
     }
 
