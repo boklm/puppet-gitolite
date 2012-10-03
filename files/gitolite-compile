@@ -1,5 +1,15 @@
 #!/bin/sh
 export GL_RC=$HOME/.gitolite.rc
 export GL_BINDIR=/usr/share/gitolite
+if ! [ -d $HOME/.ssh ]
+then
+    mkdir $HOME/.ssh
+    chmod 700 $HOME/.ssh
+fi
+if ! [ -f $HOME/.ssh/authorized_keys ]
+then
+    touch $HOME/.ssh/authorized_keys
+    chmod 600 $HOME/.ssh/authorized_keys
+fi
 cd $HOME/.gitolite
 $GL_BINDIR/gl-compile-conf
