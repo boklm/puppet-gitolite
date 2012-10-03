@@ -1,7 +1,7 @@
 define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $projects_list = '') {
     include gitolite::base
 
-    if ($projects_list == '') {
+    if ($projects_list != '') {
 	$proj_list = $projects_list
     } else {
 	$proj_list = "${homedir}/projects.list"
