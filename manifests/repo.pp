@@ -2,7 +2,8 @@
 # options: list of gitolite options
 # configs: list of git config options
 define gitolite::repo($gitolite_user, $homedir, $reponame, $access_rules, $options = [], $configs = []) {
-    file { "${homedir}/.gitolite/conf/repos/${name}.conf":
+    $filename = regsubst($name, '/', '_', 'M')
+    file { "${homedir}/.gitolite/conf/repos/${filename}.conf":
 	ensure => present,
 	owner => $gitolite_user,
 	group => $gitolite_user,
