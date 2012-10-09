@@ -101,6 +101,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	command => "su - $name -c $glcompile",
 	refreshonly => true,
 	require => [File[$glcompile], User[$name]],
+	timeout => 0,
     }
 }
 
