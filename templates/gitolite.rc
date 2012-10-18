@@ -122,7 +122,7 @@ $GL_NO_SETUP_AUTHKEYS = 0;
 # completely disables this feature (meaning you cannot set git configs from
 # the repo config).
 
-$GL_GITCONFIG_KEYS = "";
+$GL_GITCONFIG_KEYS = "<%= @GL_GITCONFIG_KEYS %>";
 
 # The second choice is to give it a space separated list of settings you
 # consider safe.  (These are actually treated as a set of regular expression

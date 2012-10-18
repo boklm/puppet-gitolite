@@ -1,4 +1,4 @@
-define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $projects_list = '', $repo_umask = '0077') {
+define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $projects_list = '', $repo_umask = '0077', $GL_GITCONFIG_KEYS = '.*') {
     include gitolite::base
 
     if ($projects_list != '') {
