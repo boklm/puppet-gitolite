@@ -1,4 +1,11 @@
-define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $projects_list = '', $repo_umask = '0077', $GL_GITCONFIG_KEYS = '.*') {
+define gitolite::gitolite_user(
+  $homedir,
+  $groups = [],
+  $repos_root = '/git',
+  $projects_list = '',
+  $repo_umask = '0077',
+  $GL_GITCONFIG_KEYS = '.*'
+) {
     include gitolite::base
 
     if ($projects_list != '') {
@@ -8,7 +15,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
     }
 
     user { $name:
-	comment => "gitolite user",
+	comment => 'gitolite user',
 	managehome => true,
 	home => $homedir,
     }
@@ -17,7 +24,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	ensure => directory,
 	owner => $name,
 	group => $name,
-	mode => 0755,
+	mode => '0755',
 	require => User[$name],
     }
 
@@ -28,7 +35,7 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	require => User[$name],
     }
 
-    file { "$homedir/.ssh":
+    file { "${homedir}/.ssh":
 	ensure => directory,
 	owner => $name,
 	group => $name,
@@ -36,59 +43,59 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
 	require => File[$homedir],
     }
 
-    file { "$homedir/.gitolite":
+    file { "${homedir}/.gitolite":
 	ensure => directory,
 	owner => $name,
 	group => $name,
 	require => File[$homedir],
     }
 
-    file { "$homedir/.gitolite/keydir":
+    file { "${homedir}/.gitolite/keydir":
 	ensure => directory,
 	owner => $name,
 	group => $name,
 	purge => true,
 	recurse => true,
-	require => File["$homedir/.gitolite"],
-	notify => Exec["gitolite-compile-$name"],
+	require => File["${homedir}/.gitolite"],
+	notify => Exec["gitolite-compile-${name}"],
     }
 
-    file { "$homedir/.gitolite/conf":
+    file { "${homedir}/.gitolite/conf":
 	ensure => directory,
 	owner => $name,
 	group => $name,
-	require => File["$homedir/.gitolite"],
+	require => File["${homedir}/.gitolite"],
     }
 
-    file { "$homedir/.gitolite/conf/repos":
-	ensure => directory,
-	owner => $name,
-	group => $name,
-	purge => true,
-	recurse => true,
-	require => File["$homedir/.gitolite/conf"],
-	notify => Exec["gitolite-compile-$name"],
-    }
-
-    file { "$homedir/.gitolite/conf/groups":
+    file { "${homedir}/.gitolite/conf/repos":
 	ensure => directory,
 	owner => $name,
 	group => $name,
 	purge => true,
 	recurse => true,
-	require => File["$homedir/.gitolite/conf"],
-	notify => Exec["gitolite-compile-$name"],
+	require => File["${homedir}/.gitolite/conf"],
+	notify => Exec["gitolite-compile-${name}"],
     }
 
-    file { "$homedir/.gitolite/conf/gitolite.conf":
+    file { "${homedir}/.gitolite/conf/groups":
+	ensure => directory,
+	owner => $name,
+	group => $name,
+	purge => true,
+	recurse => true,
+	require => File["${homedir}/.gitolite/conf"],
+	notify => Exec["gitolite-compile-${name}"],
+    }
+
+    file { "${homedir}/.gitolite/conf/gitolite.conf":
 	ensure => present,
 	owner => $name,
 	group => $name,
-	source => "puppet:///modules/gitolite/gitolite.conf",
-	require => File["$homedir/.gitolite/conf"],
+	source => 'puppet:///modules/gitolite/gitolite.conf',
+	require => File["${homedir}/.gitolite/conf"],
     }
 
-    file { "$homedir/.gitolite.rc":
+    file { "${homedir}/.gitolite.rc":
 	ensure => present,
 	owner => $name,
 	group => $name,
@@ -97,8 +104,8 @@ define gitolite::gitolite_user($homedir, $groups = [], $repos_root = '/git', $pr
     }
 
     $glcompile = $gitolite::base::glcompile
-    exec { "gitolite-compile-$name":
-	command => "su - $name -c $glcompile",
+    exec { "gitolite-compile-${name}":
+	command => "su - ${name} -c ${glcompile}",
 	refreshonly => true,
 	require => [File[$glcompile], User[$name]],
 	timeout => 0,
