@@ -13,10 +13,10 @@ define gitolite::repo(
 ) {
   $filename = regsubst($name, '/', '_', 'M')
   file { "${homedir}/.gitolite/conf/repos/${filename}.conf":
-    ensure => present,
-    owner => $gitolite_user,
-    group => $gitolite_user,
-    notify => Exec["gitolite-compile-${gitolite_user}"],
+    ensure  => present,
+    owner   => $gitolite_user,
+    group   => $gitolite_user,
+    notify  => Exec["gitolite-compile-${gitolite_user}"],
     content => template('gitolite/gitolite_repo.conf'),
   }
 }
