@@ -1,3 +1,29 @@
+# == Define: gitolite::gitolite_user
+# 
+# This define creates a gitolite user that will be used to host git
+# repositories.
+#
+# === Parameters
+#
+# [*namevar*]
+#   the login name of the gitolite user. Usually 'git' or 'gitolite'.
+#
+# [*homedir*]
+#   home directory path of the gitolite user.
+#
+# [*repos_root*]
+#   path to the root directory where git repositories will be created.
+#
+# [*repo_umask*]
+#   This variable is used in gitolite.rc. This is the umask of the
+#   repositories. Change this if you run stuff like gitweb and find it
+#   can't read the repos.
+#
+# [*GL_GIT_CONFIG_KEYS*]
+#   This variable is used in gitolite.rc. This is a regexp of the config
+#   keys that are allowed to be set using the "config" keyword from gitolite.
+#   Check templates/gitolite.rc for details.
+#
 define gitolite::gitolite_user(
   $homedir,
   $groups = [],
