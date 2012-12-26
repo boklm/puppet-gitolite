@@ -11,4 +11,7 @@
 class gitolite::var(
   $gl_version = 'v2'
 ) {
+  if not ($gl_version in [ 'v2', 'v3' ]) {
+    fail("Incorrect gitolite version $gl_version")
+  }
 }
