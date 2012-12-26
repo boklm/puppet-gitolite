@@ -1,3 +1,3 @@
 class gitolite {
-    include gitolite::base
+  include gitolite::base
 }

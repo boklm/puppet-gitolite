@@ -11,12 +11,12 @@ define gitolite::repo(
   $gitweb_owner = 'nobody',
   $description = 'no description'
 ) {
-    $filename = regsubst($name, '/', '_', 'M')
-    file { "${homedir}/.gitolite/conf/repos/${filename}.conf":
-	ensure => present,
-	owner => $gitolite_user,
-	group => $gitolite_user,
-	notify => Exec["gitolite-compile-${gitolite_user}"],
-	content => template('gitolite/gitolite_repo.conf'),
-    }
+  $filename = regsubst($name, '/', '_', 'M')
+  file { "${homedir}/.gitolite/conf/repos/${filename}.conf":
+    ensure => present,
+    owner => $gitolite_user,
+    group => $gitolite_user,
+    notify => Exec["gitolite-compile-${gitolite_user}"],
+    content => template('gitolite/gitolite_repo.conf'),
+  }
 }
